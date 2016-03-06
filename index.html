@@ -2,24 +2,32 @@
   <title>Raleigh Wake 911</title>
 </head>
  
-<body>
-  <div class="container"
-       ng-app="rw911">
+<body ng-app="rw911" layout="column">
   
-    <header>
+  <md-toolbar md-scroll-shrink>
+    <div class="md-toolbar-tools">
       <h1>Raleigh Wake 911</h1>
-    </header>
-   
-    <ul ng-controller="tweetsCtrl">
-      <md-card ng-repeat="tweet in tweets">
-        <md-card-content>
-          <img ng-src="{{tweet.user.profile_image_url}}">
-          {{tweet.text}}
-          {{ tweet }}
-        </md-card-content>
-      </md-card>
-      <li >{{tweet}}</li>
-    </ul>
+    </div>
+  </md-toolbar>
 
-  </div>
+  <md-content ng-controller="tweetsCtrl" flex>
+    <md-card class="tweet-card" ng-repeat="tweet in tweets">
+      
+      <md-card-header>
+        <md-card-avatar>
+          <img class="md-user-avatar" ng-src="{{ tweet.user.profile_image_url_https }}" alt="user avatar"/>
+        </md-card-avatar>
+        <md-card-header-text>
+          <span class="md-title">{{ tweet.user.name }}</span>
+          <span class="md-subhead">@{{ tweet.user.screen_name }}</span>
+        </md-card-header-text>
+      </md-card-header>
+      
+      <img ng-src="{{ tweet.user.profile_banner_url || tweet.user.profile_background_image_url_https }}" class="md-card-image user-background" alt="user background">
+      
+      <md-card-content>
+        <p class="tweet-text">{{ tweet.text }}</p>
+      </md-card-content>
+    </md-card>
+  </md-content>
 </body>

@@ -23,7 +23,17 @@ if (Meteor.isServer) {
     var stream = T.stream('statuses/filter', { follow: ['20647123', '108853393'] })
   
     stream.on('tweet', Meteor.bindEnvironment(function (tweet) {
+      var userName = tweet.user.name;
+      var userLocation = tweet.user.location;
+      var userUrl = tweet.user.url;
+      var userScreenName = tweet.user.screen_name;
+      var profileImg = tweet.user.profile_image_url;
+      var userTweet = tweet.text;
+      var tweetDate = tweet.created_at;
+      
       console.log(tweet);
+      console.log(userScreenName + " (" + userName + ")" + " said " + userTweet + " at " + tweetDate);
+      console.log("=======================================");
       Tweets.insert(tweet);
     }))
   });
