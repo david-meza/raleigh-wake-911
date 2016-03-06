@@ -1,18 +1,24 @@
 <head>
-  <title>Todo List</title>
+  <title>Raleigh Wake 911</title>
 </head>
  
 <body>
   <div class="container"
-       ng-app="simple-todos"
-       ng-controller="TodosListCtrl">
+       ng-app="rw911">
   
     <header>
-      <h1>Todo List</h1>
+      <h1>Raleigh Wake 911</h1>
     </header>
    
-    <ul>
-      <li ng-repeat="task in tasks">{{task.text}}</li>
+    <ul ng-controller="tweetsCtrl">
+      <md-card ng-repeat="tweet in tweets">
+        <md-card-content>
+          <img ng-src="{{tweet.user.profile_image_url}}">
+          {{tweet.text}}
+          {{ tweet }}
+        </md-card-content>
+      </md-card>
+      <li >{{tweet}}</li>
     </ul>
 
   </div>

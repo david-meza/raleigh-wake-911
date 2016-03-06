@@ -1,26 +1,30 @@
 if (Meteor.isClient) {
+
+  Meteor.subscribe("tweets");
  
   // This code only runs on the client
-  angular.module('simple-todos',['angular-meteor']);
+  angular.module('rw911',['angular-meteor', 'ngMaterial']);
  
-  angular.module('simple-todos').controller('TodosListCtrl', ['$scope',
+  angular.module('rw911').controller('tweetsCtrl', ['$scope',
     function ($scope) {
  
-      $scope.tasks = [
-        { text: 'This is task 1' },
-        { text: 'This is task 2' },
-        { text: 'This is task 3' }
-      ];
+      $scope.helpers({
+        tweets() {
+          return Tweets.find({}, {sort: {createdAt: 1}});
+        }
+      });
  
   }]);
 }
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    var stream = T.stream('statuses/filter', { follow: 'rw911' })
+    var raleigh = ['-79.1805267334', '35.574682601', '-78.3620452881', '36.0990476632'];
+    var stream = T.stream('statuses/filter', { follow: ['20647123', '108853393'] })
   
-    stream.on('tweet', function (tweet) {
-      console.log(tweet)
-    })
+    stream.on('tweet', Meteor.bindEnvironment(function (tweet) {
+      console.log(tweet);
+      Tweets.insert(tweet);
+    }))
   });
 }
