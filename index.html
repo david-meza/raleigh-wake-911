@@ -11,15 +11,35 @@
   </md-toolbar>
 
   <md-content ng-controller="tweetsCtrl" flex>
+
+    <div id="map-canvas" layout = "column" flex>
+
+      <!-- Main Map Directive -->
+      <ui-gmap-google-map center='map.location.coords'
+                          zoom='map.zoom'
+                          options = 'map.options'
+                          events = 'map.events'
+                          control = 'map.control'
+                          layout = "column" flex>
+
+      </ui-gmap-google-map>
+
+    </div>
+
     <md-card class="tweet-card" ng-repeat="tweet in tweets">
       
       <md-card-header>
         <md-card-avatar>
           <img class="md-user-avatar" ng-src="{{ tweet.user.profile_image_url_https }}" alt="user avatar"/>
         </md-card-avatar>
-        <md-card-header-text>
-          <span class="md-title">{{ tweet.user.name }}</span>
-          <span class="md-subhead">@{{ tweet.user.screen_name }}</span>
+        
+        <md-card-header-text layout="column" layout-align="start start">
+          <span class="md-title" flex="50" layout="row">
+            <span>{{ tweet.user.name }}</span>
+            <span flex></span>
+            <span class="posted-date">Posted {{ tweet.created_at | date: 'medium' }}</span>
+          </span>
+          <md-button target="_blank" ng-href="https://twitter.com/{{tweet.user.screen_name}}" class="md-primary md-hue-1 user-name-button" flex="50">@{{ tweet.user.screen_name }}</md-button>
         </md-card-header-text>
       </md-card-header>
       
