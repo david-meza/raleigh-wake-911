@@ -39,7 +39,9 @@
             <span flex></span>
             <span class="posted-date">Posted {{ tweet.created_at | date: 'medium' }}</span>
           </span>
-          <md-button target="_blank" ng-href="https://twitter.com/{{tweet.user.screen_name}}" class="md-primary md-hue-1 user-name-button" flex="50">@{{ tweet.user.screen_name }}</md-button>
+          <span class="md-subhead" flex="50">
+            <md-button target="_blank" ng-href="https://twitter.com/{{tweet.user.screen_name}}" class="md-primary md-hue-1 user-name-button">@{{ tweet.user.screen_name }}</md-button>
+          </span>
         </md-card-header-text>
       </md-card-header>
       

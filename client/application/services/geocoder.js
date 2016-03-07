@@ -1,72 +1,6 @@
-if (Meteor.isClient) {
+(function() {
 
-  Meteor.subscribe("tweets");
- 
-  // This code only runs on the client
-  angular.module('rw911',['angular-meteor', 'ngMaterial', 'uiGmapgoogle-maps', 'ngStorage']);
- 
-  angular.module('rw911').controller('tweetsCtrl', ['$scope',
-    function ($scope) {
- 
-      $scope.helpers({
-        tweets() {
-          return Tweets.find({}, {sort: {created_at: -1}});
-        }
-      });
-
-      var location = {
-        coords: {
-          latitude: 35.79741992502266, 
-          longitude: -78.64118938203126
-        }
-      };
-
-      $scope.map = {
-        zoom: 13,
-        location: location,
-        control: {},
-        events: {},
-        bounds: {
-          northeast: {
-            longitude: -78.336890,
-            latitude: 36.113561
-          },
-          southwest: {
-            latitude: 35.437814,
-            longitude: -78.984583
-          }
-        },
-        options: {
-          disableDefaultUI: true,
-          draggable: true,
-          scrollwheel: false,
-          minZoom: 9,
-          tilt: 0,
-          zoomControl: true,
-          zoomControlOptions: {
-            position: 6,
-            style: 1,
-          },
-          mapTypeControl: false,
-          scaleControl: false,
-          streetViewControl: true,
-          streetViewControlOptions: {
-            position: 6
-          },
-          rotateControl: false,
-          panControl: false
-        },
-      };
- 
-  }]);
-
-  angular.module('rw911').config(['uiGmapGoogleMapApiProvider', function (uiGmapGoogleMapApiProvider) {
-    uiGmapGoogleMapApiProvider.configure({
-        signed_in: true,
-        v: '3.22',
-        libraries: 'places'
-    });
-  }]);
+  'use strict';
 
   angular.module('rw911').factory('geocoderService', ['$q', '$timeout', 'uiGmapGoogleMapApi', '$localStorage',
     function ($q, $timeout, mapsApi, $localStorage) {
@@ -182,27 +116,5 @@ if (Meteor.isClient) {
 
 
   }]);
-}
 
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    var raleigh = ['-79.1805267334', '35.574682601', '-78.3620452881', '36.0990476632'];
-    var stream = T.stream('statuses/filter', { follow: ['20647123', '108853393'] })
-  
-    stream.on('tweet', Meteor.bindEnvironment(function (tweet) {
-      var userName = tweet.user.name;
-      var userLocation = tweet.user.location;
-      var userUrl = tweet.user.url;
-      var userScreenName = tweet.user.screen_name;
-      var profileImg = tweet.user.profile_image_url;
-      var userTweet = tweet.text;
-      tweet.created_at = new Date( Date.parse(tweet.created_at) );
-      var tweetDate = tweet.created_at;
-      
-      console.log(tweet);
-      console.log(userScreenName + " (" + userName + ")" + " said " + userTweet + " at " + tweetDate);
-      console.log("=======================================");
-      Tweets.insert(tweet);
-    }))
-  });
-}
+})();
